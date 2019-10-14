@@ -1,0 +1,23 @@
+ul {
+  display: flex;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  text-transform: capitalize;
+  margin-left: 1em;
+}
+
+a {
+    display: block;
+    color: black;
+    text-decoration: none;
+    padding: 0.5em 0.75em;
+    min-width: 10ch;
+    text-align: center;
+}
+
+a.active {
+    background-color: blueviolet;
+}
