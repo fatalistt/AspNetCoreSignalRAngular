@@ -1,0 +1,10 @@
+<ul>
+    <li *ngFor="let message of messages">
+        <b>{{message.user}}:</b> {{message.text}}
+    </li>
+</ul>
+<fieldset>
+    <label for="message">Message:</label>
+    <input id="message" type="text" [(ngModel)] = "text" />
+    <button (click)="send()">Send</button>
+</fieldset>

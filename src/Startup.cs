@@ -1,3 +1,4 @@
+using AspNetCoreSignalRAngular.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -14,6 +15,7 @@ namespace AspNetCoreSignalRAngular
         {
             services.AddControllersWithViews();
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "AngularApp/dist");
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,7 +38,11 @@ namespace AspNetCoreSignalRAngular
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints => endpoints.MapControllerRoute("default", "{controller}/{action=Index}/{id?}"));
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute("default", "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/chatHub");
+            });
 
             app.UseSpa(spa =>
             {
