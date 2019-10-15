@@ -14,16 +14,47 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish",
+            "label": "publish:backend",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
                 "${workspaceFolder}/src/AspNetCoreSignalRAngular.csproj",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary",
+                "--configuration",
+                "Release",
+                "--output",
+                "${workspaceFolder}/Release",
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish:frontend",
+            "command": "npm",
+            "type": "shell",
+            "args": [
+                "--prefix",
+                "${workspaceFolder}/src/AngularApp",
+                "run",
+                "build",
+                "--",
+                "--prod",
+                "--output-path",
+                "${workspaceFolder}/Release/AngularApp/dist",
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "dependsOn": [
+                "publish:backend",
+                "publish:frontend"
+            ],
+            "problemMatcher": [
+                "$msCompile",
+                "$tsc"
+            ]
         },
         {
             "label": "watch",

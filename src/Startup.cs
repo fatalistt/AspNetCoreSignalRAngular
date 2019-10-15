@@ -49,7 +49,7 @@ namespace AspNetCoreSignalRAngular
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "src/AngularApp";
+                spa.Options.SourcePath = "AngularApp";
 
                 if (env.IsDevelopment())
                     spa.UseAngularCliServer("start");
