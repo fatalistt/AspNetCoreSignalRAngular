@@ -9,11 +9,11 @@ namespace AspNetCoreSignalRAngular.SignalR.Hubs
     public class ChatHub : Hub<IChatClient>
     {
         private static readonly string[] groups = { "All Users", "Group1", "Group2" };
-        public async Task SendMessage(string group, string user, string text)
+        public Task SendMessage(string group, string user, string text)
         {
             if (!groups.Contains(group))
                 throw new ArgumentOutOfRangeException(nameof(group), group, null);
-            await Clients.Group(group).ReceiveMessage(user, text);
+            return Clients.Group(group).ReceiveMessage(user, text);
         }
 
         public async Task JoinGroup(string group)
@@ -32,14 +32,14 @@ namespace AspNetCoreSignalRAngular.SignalR.Hubs
             await Clients.Caller.LeftNotification(group);
         }
 
-        public override Task OnConnectedAsync()
+        public Task GetGroupsList()
         {
-            return Task.WhenAll(base.OnConnectedAsync(), Clients.Caller.ReceiveGroupsList(groups), JoinGroup("All Users"));
+            return Clients.Caller.ReceiveGroupsList(groups);
         }
 
-        public override Task OnDisconnectedAsync(Exception exception)
+        public override Task OnConnectedAsync()
         {
-            return base.OnDisconnectedAsync(exception);
+            return Task.WhenAll(base.OnConnectedAsync(), JoinGroup("All Users"));
         }
     }
 }
