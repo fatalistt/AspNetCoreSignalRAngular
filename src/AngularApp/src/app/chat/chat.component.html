@@ -1,10 +1,15 @@
-<ul>
-    <li *ngFor="let message of messages">
-        <b>{{message.user}}:</b> {{message.text}}
-    </li>
-</ul>
+<main>
+    <header>
+        <h2>Messages</h2>
+    </header>
+    <ul>
+        <li *ngFor="let message of messages.reverse()">
+            <b>{{message.user}}:</b> {{message.text}}
+        </li>
+    </ul>
+</main>
 <fieldset>
     <label for="message">Message:</label>
-    <input id="message" type="text" [(ngModel)] = "text" />
+    <input id="message" type="text" [(ngModel)]="text" />
     <button (click)="send()">Send</button>
 </fieldset>

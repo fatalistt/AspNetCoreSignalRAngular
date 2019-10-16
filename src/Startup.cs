@@ -1,4 +1,4 @@
-using AspNetCoreSignalRAngular.Hubs;
+using AspNetCoreSignalRAngular.SignalR.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;

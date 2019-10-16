@@ -17,9 +17,9 @@ export class ChatComponent implements OnInit {
       .withUrl("/chatHub")
       .build();
 
-    this.connection.on("messageReceived", (user: string, text: string) => {
-      return this.messages.push({user, text});
-    });
+    this.connection.on("receiveMessage", (user: string, text: string) => this.messages.push({ user, text }));
+
+    this.connection.on("receiveNotification", (text: string) => this.messages.push({ user: "notification", text }));
 
     this.connection.start().catch(err => console.error(err));
   }
