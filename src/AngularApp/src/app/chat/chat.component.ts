@@ -8,10 +8,12 @@ import * as signalR from "@aspnet/signalr";
 })
 export class ChatComponent implements OnInit {
   @ViewChild('chat', { static: false }) private main: ElementRef<HTMLElement>;
-  messages: Message[] = [];
   text: string;
+  groups: string[] = [];
+  readonly messages: Message[] = [];
   private readonly connection: signalR.HubConnection;
   private readonly username = new Date().getTime().toString();
+  private currentGroup: string;
 
   constructor() {
     this.connection = new signalR.HubConnectionBuilder()
@@ -22,15 +24,33 @@ export class ChatComponent implements OnInit {
 
     this.connection.on("receiveNotification", (text: string) => this.addMessage({ user: "notification", text }));
 
-    this.connection.start().catch(err => console.error(err));
+    this.connection.on("receiveGroupsList", (groups: string[]) => this.groups = groups);
+
+    this.connection.on("joinedNotification", (group: string) => {
+      this.addMessage({ user: "notification", text: `You joined the group ${group}` });
+      this.currentGroup = group;
+    });
+
+    this.connection.on("leftNotification", (group: string) => this.addMessage({ user: "notification", text: `You left the group ${group}` }));
+
+    this.connection.start().catch(err => this.addMessage({ user: "error", text: err }));
   }
 
   ngOnInit() {
   }
 
   send() {
-    this.connection.send("newMessage", this.username, this.text)
+    if (this.currentGroup === undefined)
+      throw new Error("Not in a group");
+    this.connection.send("sendMessage", this.currentGroup, this.username, this.text)
       .then(() => this.text = null);
+  }
+
+  joinGroup(e: Event, group: string) {
+    e.preventDefault();
+    if (group === this.currentGroup) return;
+    this.connection.send("leaveGroup", this.currentGroup);
+    this.connection.send("joinGroup", group)
   }
 
   private addMessage(message: Message) {
