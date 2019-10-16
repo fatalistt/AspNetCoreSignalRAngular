@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +7,8 @@ import { Component } from '@angular/core';
     <app-nav></app-nav>
     <router-outlet></router-outlet>
   `,
-  styles: []
+  styleUrls: ["./app.component.scss"],
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class AppComponent {
   title = 'ASP.Net Core + SignalR + Angular';

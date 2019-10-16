@@ -10,14 +10,22 @@ li {
 }
 
 a {
-    display: block;
-    color: black;
-    text-decoration: none;
-    padding: 0.5em 0.75em;
-    min-width: 10ch;
-    text-align: center;
-}
+  display: block;
+  color: black;
+  text-decoration: none;
+  padding: 0.5em 0.75em;
+  min-width: 10ch;
+  text-align: center;
+  border: 1px solid black;
+  transition: background-color 200ms, color 200ms;
 
-a.active {
+  &.active {
     background-color: blueviolet;
+    color: white;
+  }
+
+  &:hover {
+    background-color: blue;
+    color: white;
+  }
 }
