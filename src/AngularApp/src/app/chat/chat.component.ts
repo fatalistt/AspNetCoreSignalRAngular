@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 
 @Component({
@@ -7,6 +7,7 @@ import * as signalR from "@aspnet/signalr";
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
+  @ViewChild('chat', { static: false }) private main: ElementRef<HTMLElement>;
   messages: Message[] = [];
   text: string;
   private readonly connection: signalR.HubConnection;
@@ -17,9 +18,9 @@ export class ChatComponent implements OnInit {
       .withUrl("/chatHub")
       .build();
 
-    this.connection.on("receiveMessage", (user: string, text: string) => this.messages.push({ user, text }));
+    this.connection.on("receiveMessage", (user: string, text: string) => this.addMessage({ user, text }));
 
-    this.connection.on("receiveNotification", (text: string) => this.messages.push({ user: "notification", text }));
+    this.connection.on("receiveNotification", (text: string) => this.addMessage({ user: "notification", text }));
 
     this.connection.start().catch(err => console.error(err));
   }
@@ -31,9 +32,16 @@ export class ChatComponent implements OnInit {
     this.connection.send("newMessage", this.username, this.text)
       .then(() => this.text = null);
   }
+
+  private addMessage(message: Message) {
+    message.time = new Date();
+    this.messages.push(message);
+    this.main.nativeElement.scrollTop = this.main.nativeElement.scrollHeight;
+  }
 }
 
 export interface Message {
   user: string;
   text: string;
+  time?: Date;
 }

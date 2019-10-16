@@ -1,15 +1,16 @@
-<main>
-    <header>
-        <h2>Messages</h2>
-    </header>
+<main #chat>
     <ul>
-        <li *ngFor="let message of messages.reverse()">
-            <b>{{message.user}}:</b> {{message.text}}
+        <li *ngFor="let message of messages">
+            <span class="time">[{{message.time.toLocaleTimeString()}}]</span>
+            <span *ngIf="message.user === 'notification'" class="notification">{{message.text}}</span>
+            <span *ngIf="message.user !== 'notification'">
+                <span class="user">{{message.user}}:</span>
+                <span class="text">{{message.text}}</span>
+            </span>
         </li>
     </ul>
 </main>
-<fieldset>
-    <label for="message">Message:</label>
+<div>
     <input id="message" type="text" [(ngModel)]="text" />
     <button (click)="send()">Send</button>
-</fieldset>
+</div>

@@ -11,4 +11,30 @@
 
 main {
   flex: 1;
+  overflow-y: auto;
+}
+
+.notification {
+  font-style: italic;
+}
+
+.user {
+  font-weight: bolder;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li > *:not(:first-child) {
+  margin-left: 1ch;
+}
+
+div {
+  display: flex;
+
+  input {
+    flex-grow: 1;
+  }
 }
