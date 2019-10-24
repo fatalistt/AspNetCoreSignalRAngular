@@ -10,7 +10,7 @@ export class ChatHubService {
 
   constructor() {
     this.connection = new signalR.HubConnectionBuilder()
-      .withUrl("/chatHub")
+      .withUrl("/api/chat")
       .build();
     this.startPromise = this.connection.start().catch(err => console.warn(err));
   }

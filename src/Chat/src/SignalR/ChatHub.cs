@@ -2,9 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using AspNetCoreSignalRAngular.SignalR.Clients;
 
-namespace AspNetCoreSignalRAngular.SignalR.Hubs
+namespace fatalisttechs.Chat.SignalR
 {
     public class ChatHub : Hub<IChatClient>
     {

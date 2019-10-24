@@ -2,72 +2,29 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/src/AspNetCoreSignalRAngular.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "publish:backend",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/src/AspNetCoreSignalRAngular.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary",
-                "--configuration",
-                "Release",
-                "--output",
-                "${workspaceFolder}/Release",
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "publish:frontend",
-            "command": "npm",
+            "label": "serve-angular",
+            "command": "ng",
             "type": "shell",
             "args": [
-                "--prefix",
-                "${workspaceFolder}/src/AngularApp",
-                "run",
-                "build",
-                "--",
-                "--prod",
-                "--output-path",
-                "${workspaceFolder}/Release/AngularApp/dist",
+                "serve"
             ],
-            "problemMatcher": "$msCompile"
+            "options": {
+                "cwd": "${workspaceFolder}/src/App"
+            },
+            "problemMatcher": "$tsc"
         },
         {
-            "label": "publish",
-            "dependsOn": [
-                "publish:backend",
-                "publish:frontend"
-            ],
-            "problemMatcher": [
-                "$msCompile",
-                "$tsc"
-            ]
-        },
-        {
-            "label": "watch",
+            "label": "build-chat",
             "command": "dotnet",
             "type": "process",
             "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/src/AspNetCoreSignalRAngular.csproj",
+                "build",
+                "${workspaceFolder}/src/Chat/src/Chat.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "group": "build"
         }
     ]
 }

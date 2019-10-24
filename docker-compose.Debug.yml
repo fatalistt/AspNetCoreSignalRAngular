@@ -1,0 +1,40 @@
+version: "3.4"
+services:
+  nginx-proxy:
+    image: "fatalist/nginx-proxy:alpine"
+    ports:
+      - "5000:80"
+      - "5001:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ${USERPROFILE}\.aspnet\https:/etc/nginx/certs
+  chat:
+    build:
+      context: ./src/Chat
+      target: debug
+    depends_on:
+      - nginx-proxy
+    environment:
+      ASPNETCORE_URLS: https://+;http://+
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTPS_PORT: 5001
+      ASPNETCORE_Kestrel__Certificates__Default__Password: fatalist
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+      ASPNETCORE_BEHIND_HTTPS_PROXY: "true"
+      VIRTUAL_PATH: /chat
+      TYPE: api
+    volumes:
+      - ${USERPROFILE}\.aspnet\https:/https/
+      - ./src/Chat/src:/src
+  app:
+    build:
+      context: ./src/App
+      target: debug
+    depends_on:
+      - nginx-proxy
+    environment:
+      VIRTUAL_PATH: /
+      TYPE: app
+    volumes:
+      - ./src/App:/app
+      - /app/node_modules

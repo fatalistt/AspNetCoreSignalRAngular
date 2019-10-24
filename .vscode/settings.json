@@ -1,0 +1,8 @@
+{
+    "files.exclude": {
+        "src/*/src/bin/": true,
+        "src/*/src/obj/": true,
+        "src/*/node_modules/": true,
+        "src/*/dist/": true
+    }
+}

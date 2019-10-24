@@ -1,0 +1,38 @@
+version: "3.4"
+services:
+  nginx-proxy:
+    image: "fatalist/nginx-proxy:alpine"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /certs:/etc/nginx/certs
+  chat:
+    build:
+      context: ./src/Chat
+      target: release
+    image: docker.io/fatalist/fatalist.tech-chat:alpine
+    depends_on:
+      - nginx-proxy
+    environment:
+      ASPNETCORE_URLS: https://+;http://+
+      ASPNETCORE_ENVIRONMENT: Release
+      ASPNETCORE_HTTPS_PORT: 443
+      ASPNETCORE_Kestrel__Certificates__Default__Password: fatalist
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/default.pfx
+      ASPNETCORE_BEHIND_HTTPS_PROXY: "true"
+      VIRTUAL_PATH: /chat
+      TYPE: api
+    volumes:
+      - /certs:/https/
+  app:
+    build:
+      context: ./src/App
+      target: release
+    image: docker.io/fatalist/fatalist.tech-app:alpine
+    depends_on:
+      - nginx-proxy
+    environment:
+      VIRTUAL_PATH: /
+      TYPE: app

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AspNetCoreSignalRAngular.SignalR.Clients
+namespace fatalisttechs.Chat.SignalR
 {
     public interface IChatClient
     {
