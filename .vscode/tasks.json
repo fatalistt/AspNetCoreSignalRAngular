@@ -4,9 +4,9 @@
         {
             "label": "docker-start-angular",
             "type": "shell",
-            "command": "docker-compose --file .\\docker-compose.Debug.yml up --build -d app",
+            "command": "docker-compose --file ${workspaceFolder}/docker-compose.Debug.yml up --build -d app",
             // Show output from ng serve
-            // "command": "docker-compose --file .\\docker-compose.Debug.yml up --build app",
+            // "command": "docker-compose --file ${workspaceFolder}/docker-compose.Debug.yml up --build app",
             // "isBackground": true,
             // "problemMatcher": [
             //     {
@@ -78,18 +78,24 @@
         {
             "label": "docker-stop-angular",
             "type": "shell",
-            "command": "docker-compose --file .\\docker-compose.Debug.yml stop app"
+            "command": "docker-compose --file ${workspaceFolder}/docker-compose.Debug.yml stop app"
         },
         {
             "label": "docker-start-chat",
             "type": "shell",
-            "command": "docker-compose --file .\\docker-compose.Debug.yml up --build chat",
+            "command": "docker-compose --file ${workspaceFolder}/docker-compose.Debug.yml up --build chat",
             "problemMatcher": ""
         },
         {
             "label": "docker-stop-chat",
             "type": "shell",
-            "command": "docker-compose --file .\\docker-compose.Debug.yml stop chat",
+            "command": "docker-compose --file ${workspaceFolder}/docker-compose.Debug.yml stop chat",
+            "problemMatcher": ""
+        },
+        {
+            "label": "docker-start-all",
+            "type": "shell",
+            "command": "docker-compose --file ${workspaceFolder}/docker-compose.Debug.yml up",
             "problemMatcher": ""
         }
     ]
