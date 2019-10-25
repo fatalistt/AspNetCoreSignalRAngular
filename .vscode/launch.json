@@ -17,22 +17,24 @@
             }
         },
         {
-            "name": "Chat",
             "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build-chat",
-            "program": "${workspaceFolder}/src/Chat/src/bin/Debug/netcoreapp3.0/Chat.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/Chat/src",
-            "stopAtEntry": false,
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://127.0.0.1:0"
+            "request": "attach",
+            "name": "Chat (Docker)",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "pipeCwd": "${workspaceFolder}/src/Chat/src",
+                "pipeProgram": "docker",
+                "pipeArgs": [
+                    "exec",
+                    "-i",
+                    "fatalist-tech_chat_1"
+                ],
+                "debuggerPath": "/vsdbg/vsdbg",
+                "quoteArgs": false
             },
             "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            },
-            "justMyCode": false
+                "/src": "${workspaceFolder}/src/Chat/src"
+            }
         }
     ]
 }

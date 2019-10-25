@@ -20,4 +20,6 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.0-alpine AS debug
 WORKDIR /src
 EXPOSE 80
 EXPOSE 443
+RUN apk --no-cache add procps
+RUN wget https://aka.ms/getvsdbgsh -O - 2>/dev/null | /bin/sh /dev/stdin -v latest -l /vsdbg
 ENTRYPOINT ["dotnet", "watch", "run"]

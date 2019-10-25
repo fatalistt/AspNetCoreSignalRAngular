@@ -79,6 +79,18 @@
             "label": "docker-stop-angular",
             "type": "shell",
             "command": "docker-compose --file .\\docker-compose.Debug.yml stop app"
+        },
+        {
+            "label": "docker-start-chat",
+            "type": "shell",
+            "command": "docker-compose --file .\\docker-compose.Debug.yml up --build chat",
+            "problemMatcher": ""
+        },
+        {
+            "label": "docker-stop-chat",
+            "type": "shell",
+            "command": "docker-compose --file .\\docker-compose.Debug.yml stop chat",
+            "problemMatcher": ""
         }
     ]
 }
