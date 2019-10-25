@@ -4,9 +4,17 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Chrome start",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/src/App"
+            "name": "Angular (Docker)",
+            "preLaunchTask": "docker-start-angular",
+            "postDebugTask": "docker-stop-angular",
+            "url": "http://localhost:5000",
+            "webRoot": "${workspaceFolder}/src/App",
+            "sourceMapPathOverrides": {
+                "webpack:///./*": "${webRoot}/*",
+                "webpack:///src/*": "${webRoot}/*",
+                "webpack:///*": "*",
+                "webpack:///./~/*": "${webRoot}/node_modules/*"
+            }
         },
         {
             "name": "Chat",

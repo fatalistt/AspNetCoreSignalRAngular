@@ -2,29 +2,83 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "serve-angular",
-            "command": "ng",
+            "label": "docker-start-angular",
             "type": "shell",
-            "args": [
-                "serve"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/src/App"
-            },
-            "problemMatcher": "$tsc"
+            "command": "docker-compose --file .\\docker-compose.Debug.yml up --build -d app",
+            // Show output from ng serve
+            // "command": "docker-compose --file .\\docker-compose.Debug.yml up --build app",
+            // "isBackground": true,
+            // "problemMatcher": [
+            //     {
+            //         "owner": "typescript",
+            //         "source": "typescript",
+            //         "applyTo": "closedDocuments",
+            //         "fileLocation": [
+            //             "relative",
+            //             "${cwd}/src/App"
+            //         ],
+            //         "pattern": [
+            //             {
+            //                 "regexp": "^.*\\|\\s+(?:ERROR in )?(\\S+):(\\d+):(\\d+)\\s+-\\s+(\\S+)\\s+(\\S+):\\s+(.*)$",
+            //                 "file": 1,
+            //                 "line": 2,
+            //                 "column": 3,
+            //                 "severity": 4,
+            //                 "code": 5,
+            //                 "message": 6
+            //             },
+            //             {
+            //                 "regexp": "^.*\\|\\s+(.*)$",
+            //                 "message": 1
+            //             }
+            //         ],
+            //         "background": {
+            //             "beginsPattern": {
+            //                 "regexp": "Project is running at"
+            //             },
+            //             "endsPattern": {
+            //                 "regexp": "Failed to compile|Compiled successfully"
+            //             }
+            //         }
+            //     },
+            //     {
+            //         "owner": "typescript",
+            //         "source": "typescript",
+            //         "applyTo": "closedDocuments",
+            //         "fileLocation": [
+            //             "relative",
+            //             "${cwd}/src/App"
+            //         ],
+            //         "pattern": [
+            //             {
+            //                 "regexp": "^.*\\|\\s+(?:ERROR in )?(\\S+)\\((\\d+),(\\d+)\\):\\s+(\\S+)\\s+(\\S+):\\s+(.*)$",
+            //                 "file": 1,
+            //                 "line": 2,
+            //                 "column": 3,
+            //                 "severity": 4,
+            //                 "code": 5,
+            //                 "message": 6
+            //             },
+            //             {
+            //                 "regexp": "^.*\\|\\s+(.*)$",
+            //                 "message": 1
+            //             }
+            //         ],
+            //         "background": {
+            //             "beginsPattern": {
+            //                 "regexp": "Compiled successfully|Compiling"
+            //             },
+            //             "endsPattern": {
+            //                 "regexp": "^.*\\|(.*Compiling.*)?$"
+            //             }
+            //         }
+            //     }
+            // ]
         },
         {
-            "label": "build-chat",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/src/Chat/src/Chat.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile",
-            "group": "build"
+            "label": "docker-stop-angular",
+            "type": "shell",
+            "command": "docker-compose --file .\\docker-compose.Debug.yml stop app"
         }
     ]
 }
