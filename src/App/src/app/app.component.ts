@@ -3,7 +3,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <header><h1>{{title}}</h1></header>
     <app-nav></app-nav>
     <router-outlet></router-outlet>
   `,
@@ -11,5 +10,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.ShadowDom
 })
 export class AppComponent {
-  title = 'ASP.Net Core + SignalR + Angular';
 }

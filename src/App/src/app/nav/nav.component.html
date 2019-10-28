@@ -1,6 +1,22 @@
-<nav>
-    <ul>
-        <li><a routerLink="/">home</a></li>
-        <li><a routerLink="/chat" routerLinkActive="active">chat</a></li>
-    </ul>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" routerLink="/">
+            <svg-icon src="assets/images/netcore.svg" [svgStyle]="{ 'height.px': 28 }"></svg-icon>
+            <svg-icon src="assets/images/signalr.svg" [svgStyle]="{ 'height.px': 28 }"></svg-icon>
+            <svg-icon src="assets/images/angular.svg" [svgStyle]="{ 'height.px': 28 }"></svg-icon>
+        </a>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" (click)="toggleMenu()">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div #menu class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" routerLink="/chat" routerLinkActive="is-tab is-active">Chat</a>
+        </div>
+        <div class="navbar-end"></div>
+    </div>
 </nav>
