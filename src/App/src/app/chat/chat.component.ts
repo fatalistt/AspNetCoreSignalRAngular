@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ChatHubService } from '../chat-hub.service';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class ChatComponent implements OnInit, OnDestroy {
   @ViewChild('chat', { static: false }) private main: ElementRef<HTMLElement>;
