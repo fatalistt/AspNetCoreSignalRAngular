@@ -55,6 +55,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chatHub.joinGroup(group);
   }
 
+  isCurrentGroup(group: string) {
+    return group === this.currentGroup;
+  }
+
   private addMessage(message: Message) {
     message.time = new Date();
     this.messages.push(message);

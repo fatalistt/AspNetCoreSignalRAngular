@@ -1,8 +1,15 @@
+<aside class="tabs">
+    <ul>
+        <li *ngFor="let group of groups" [ngClass]="{'is-active': isCurrentGroup(group)}">
+            <a (click)="joinGroup($event, group)">{{group}}</a>
+        </li>
+    </ul>
+</aside>
 <main #chat>
     <ul>
         <li *ngFor="let message of messages">
             <span class="time">[{{message.time.toLocaleTimeString()}}]</span>
-            <span *ngIf="message.user === 'notification'" class="notification">{{message.text}}</span>
+            <span *ngIf="message.user === 'notification'">{{message.text}}</span>
             <span *ngIf="message.user !== 'notification'">
                 <span class="user">{{message.user}}:</span>
                 <span class="text">{{message.text}}</span>
@@ -10,14 +17,11 @@
         </li>
     </ul>
 </main>
-<aside>
-    <ul>
-        <li *ngFor="let group of groups">
-            <a (click)="joinGroup($event, group)" href="#">{{group}}</a>
-        </li>
-    </ul>
-</aside>
-<div>
-    <input id="message" type="text" [(ngModel)]="text" />
-    <button (click)="send()">Send</button>
+<div class="field has-addons">
+    <div class="control is-expanded">
+        <input class="input is-small" id="message" type="text" [(ngModel)]="text" placeholder="Message" />
+    </div>
+    <div class="control">
+        <button class="button is-small is-info" (click)="send()">Send</button>
+    </div>
 </div>

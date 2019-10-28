@@ -1,18 +1,15 @@
+@import "../bulma-shared.scss";
+@import "../../../node_modules/bulma/sass/utilities/controls.sass";
+@import "../../../node_modules/bulma/sass/components/tabs.sass";
+@import "../../../node_modules/bulma/sass/elements/button.sass";
+@import "../../../node_modules/bulma/sass/form/shared.sass";
+@import "../../../node_modules/bulma/sass/form/tools.sass";
+@import "../../../node_modules/bulma/sass/form/input-textarea.sass";
+
 :host {
-  display: grid;
-  grid-template:
-    "groups"
-    "msgs" 1fr
-    "input";
-
-  > * {
-    padding-top: 0.35em;
-    padding-bottom: 0.35em;
-    margin: 0;
-    border: 1px solid black;
-  }
+  display: flex;
+  flex-direction: column;
 }
-
 main {
   grid-area: msgs;
   flex: 1;
@@ -24,65 +21,24 @@ main {
   }
 }
 
-.notification {
-  font-style: italic;
-}
+// .notification {
+//   font-style: italic;
+// }
 
 .user {
   font-weight: bolder;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+// ul {
+//   list-style-type: none;
+//   padding: 0;
+// }
 
-div {
-  grid-area: input;
-  display: flex;
+// div {
+//   grid-area: input;
+//   display: flex;
 
-  input {
-    flex-grow: 1;
-  }
-}
-
-aside {
-  grid-area: groups;
-  overflow-x: auto;
-
-  ul {
-    display: flex;
-
-    li {
-      min-width: fit-content;
-    }
-
-    > :not(:first-child) {
-      margin-left: 0.75em;
-    }
-
-    @media (min-width: 768px) {
-    }
-  }
-}
-
-@media (min-width: 768px) {
-  :host {
-    grid-template:
-      "msgs groups" 1fr
-      "input input"
-      / 1fr minmax(10rem, max-content);
-  }
-
-  aside {
-    overflow: hidden auto;
-
-    ul {
-      flex-direction: column;
-
-      > *:not(:first-child) {
-        margin: 0;
-      }
-    }
-  }
-}
+//   input {
+//     flex-grow: 1;
+//   }
+// }
