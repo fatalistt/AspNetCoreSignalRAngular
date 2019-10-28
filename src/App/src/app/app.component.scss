@@ -1,17 +1,11 @@
-@import "../../node_modules/bulma/bulma.sass";
-
 :host {
   display: flex;
   flex-direction: column;
   height: 100%;
-
-  > * > * {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-  }
 }
 
 router-outlet ~ * {
   flex: 1;
   overflow-y: hidden;
+  padding: 0.5rem 0.75rem;
 }
