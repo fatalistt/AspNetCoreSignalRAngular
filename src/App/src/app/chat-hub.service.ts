@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,7 @@ import * as signalR from '@aspnet/signalr';
 export class ChatHubService {
   private readonly connection: signalR.HubConnection;
   private readonly startPromise: Promise<void>;
+  private readonly groupsSubject: BehaviorSubject<string[]> = new BehaviorSubject([]);
   currentGroup: string;
 
   constructor() {
@@ -14,7 +16,9 @@ export class ChatHubService {
       .withUrl("/api/chat")
       .build();
     this.startPromise = this.connection.start().catch(err => console.warn(err));
+    this.startPromise.then(() => this.getGroupsList());
     this.onJoinedNotification((group: string) => this.currentGroup = group);
+    this.onReceiveGroupsList((groups:string[]) => this.groupsSubject.next(groups));
   }
 
   private on(methodName: string, newMethod: (...args: unknown[]) => void): void {
@@ -30,6 +34,10 @@ export class ChatHubService {
   private async send(methodName: string, ...args: unknown[]): Promise<void> {
     await this.startPromise;
     this.connection.send(methodName, ...args);
+  }
+
+  getGroups(): Observable<string[]> {
+    return this.groupsSubject.asObservable();
   }
 
   sendMessage(username: string, text: string): Promise<void> {

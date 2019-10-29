@@ -1,6 +1,6 @@
 <aside class="tabs">
 	<ul>
-		<li *ngFor="let group of groups" [ngClass]="{'is-active': isCurrentGroup(group)}">
+		<li *ngFor="let group of groups | async" [ngClass]="{'is-active': isCurrentGroup(group)}">
 			<a (click)="joinGroup($event, group)">{{group}}</a>
 		</li>
 	</ul>
