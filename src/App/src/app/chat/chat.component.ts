@@ -46,6 +46,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   send(): void {
     if (this.currentGroup === undefined) throw new Error("Not in a group");
+    if (this.text.trim() == "") {
+      this.text = null;
+      return;
+    }
     this.chatHub.sendMessage(this.currentGroup, this.username, this.text).then(() => this.text = null);
   }
 
