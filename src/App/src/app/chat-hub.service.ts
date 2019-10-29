@@ -7,12 +7,14 @@ import * as signalR from '@aspnet/signalr';
 export class ChatHubService {
   private readonly connection: signalR.HubConnection;
   private readonly startPromise: Promise<void>;
+  currentGroup: string;
 
   constructor() {
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl("/api/chat")
       .build();
     this.startPromise = this.connection.start().catch(err => console.warn(err));
+    this.onJoinedNotification((group: string) => this.currentGroup = group);
   }
 
   private on(methodName: string, newMethod: (...args: unknown[]) => void): void {
@@ -30,12 +32,13 @@ export class ChatHubService {
     this.connection.send(methodName, ...args);
   }
 
-  sendMessage(group: string, username: string, text: string): Promise<void> {
-    return this.send("sendMessage", group, username, text);
+  sendMessage(username: string, text: string): Promise<void> {
+    if (this.currentGroup === undefined) throw new Error("Not in a group");
+    return this.send("sendMessage", this.currentGroup, username, text);
   }
 
-  leaveGroup(group: string): Promise<void> {
-    return this.send("leaveGroup", group);
+  leaveCurrentGroup(): Promise<void> {
+    return this.send("leaveGroup", this.currentGroup);
   }
 
   joinGroup(group: string): Promise<void> {
