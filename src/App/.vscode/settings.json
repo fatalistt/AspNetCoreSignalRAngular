@@ -1,0 +1,9 @@
+{
+    "files.exclude": {
+        "node_modules/": true,
+        "dist/": true
+    },
+    "eslint.lintTask.enable": true,
+    "eslint.lintTask.options": "--ext .js,.jsx,.ts,.tsx src",
+    "eslint.autoFixOnSave": true
+}

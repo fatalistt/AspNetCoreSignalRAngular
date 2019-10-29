@@ -14,19 +14,19 @@ export class ChatComponent implements OnInit, OnDestroy {
   readonly messages: Message[] = [];
   private readonly username = new Date().getTime().toString();
   private currentGroup: string;
-  private readonly receiveMessageHandler = (user: string, text: string) => this.addMessage({ user, text });
-  private readonly receiveNotificationHandler = (text: string) => this.addMessage({ user: "notification", text });
-  private readonly receiveGroupsListHandler = (groups: string[]) => this.groups = groups;
-  private readonly joinedNotificationHandler = (group: string) => {
+  private readonly receiveMessageHandler = (user: string, text: string): void => this.addMessage({ user, text });
+  private readonly receiveNotificationHandler = (text: string): void => this.addMessage({ user: "notification", text });
+  private readonly receiveGroupsListHandler = (groups: string[]): string[] => this.groups = groups;
+  private readonly joinedNotificationHandler = (group: string): void => {
     this.addMessage({ user: "notification", text: `You joined the group ${group}` });
     this.currentGroup = group;
   };
-  private readonly leftNotificationHandler = (group: string) => this.addMessage({ user: "notification", text: `You left the group ${group}` });
+  private readonly leftNotificationHandler = (group: string): void => this.addMessage({ user: "notification", text: `You left the group ${group}` });
 
   constructor(private chatHub: ChatHubService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.chatHub.onReceiveMessage(this.receiveMessageHandler);
     this.chatHub.onReceiveNotification(this.receiveNotificationHandler);
     this.chatHub.onReceiveGroupsList(this.receiveGroupsListHandler);
@@ -35,7 +35,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chatHub.getGroupsList();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.chatHub.offReceiveMessage(this.receiveMessageHandler);
     this.chatHub.offReceiveNotification(this.receiveNotificationHandler);
     this.chatHub.offReceiveGroupsList(this.receiveGroupsListHandler);
@@ -43,23 +43,23 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chatHub.offLeftNotification(this.leftNotificationHandler);
   }
 
-  send() {
+  send(): void {
     if (this.currentGroup === undefined) throw new Error("Not in a group");
     this.chatHub.sendMessage(this.currentGroup, this.username, this.text).then(() => this.text = null);
   }
 
-  joinGroup(e: Event, group: string) {
+  joinGroup(e: Event, group: string): void {
     e.preventDefault();
     if (group === this.currentGroup) return;
     this.chatHub.leaveGroup(this.currentGroup);
     this.chatHub.joinGroup(group);
   }
 
-  isCurrentGroup(group: string) {
+  isCurrentGroup(group: string): boolean {
     return group === this.currentGroup;
   }
 
-  private addMessage(message: Message) {
+  private addMessage(message: Message): void {
     message.time = new Date();
     this.messages.push(message);
     this.main.nativeElement.scrollTop = this.main.nativeElement.scrollHeight;

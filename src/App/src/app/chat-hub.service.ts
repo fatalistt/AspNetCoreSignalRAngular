@@ -15,74 +15,74 @@ export class ChatHubService {
     this.startPromise = this.connection.start().catch(err => console.warn(err));
   }
 
-  private on(methodName: string, newMethod: (...args: any[]) => void) {
+  private on(methodName: string, newMethod: (...args: unknown[]) => void): void {
     this.connection.on(methodName, newMethod);
     console.log("ChatHub", "on", methodName, newMethod);
   }
 
-  private off(methodName: string, method: (...args: any[]) => void): void {
+  private off(methodName: string, method: (...args: unknown[]) => void): void {
     this.connection.off(methodName, method);
     console.log("ChatHub", "off", methodName, method);
   }
 
-  private async send(methodName: string, ...args: any[]): Promise<void> {
+  private async send(methodName: string, ...args: unknown[]): Promise<void> {
     await this.startPromise;
-    this.connection.send.apply(this.connection, arguments);
+    this.connection.send(methodName, ...args);
   }
 
-  sendMessage(group: string, username: string, text: string) {
+  sendMessage(group: string, username: string, text: string): Promise<void> {
     return this.send("sendMessage", group, username, text);
   }
 
-  leaveGroup(group: string) {
+  leaveGroup(group: string): Promise<void> {
     return this.send("leaveGroup", group);
   }
 
-  joinGroup(group: string) {
+  joinGroup(group: string): Promise<void> {
     return this.send("joinGroup", group);
   }
 
-  getGroupsList() {
+  getGroupsList(): Promise<void> {
     return this.send("getGroupsList");
   }
 
-  onReceiveMessage(newMethod: (...args: any[]) => void): void {
+  onReceiveMessage(newMethod: (...args: unknown[]) => void): void {
     this.on("receiveMessage", newMethod);
   }
 
-  offReceiveMessage(method: (...args: any[]) => void): void {
+  offReceiveMessage(method: (...args: unknown[]) => void): void {
     this.off("receiveMessage", method);
   }
 
-  onReceiveNotification(newMethod: (...args: any[]) => void): void {
+  onReceiveNotification(newMethod: (...args: unknown[]) => void): void {
     this.on("receiveNotification", newMethod);
   }
 
-  offReceiveNotification(method: (...args: any[]) => void): void {
+  offReceiveNotification(method: (...args: unknown[]) => void): void {
     this.off("receiveNotification", method);
   }
 
-  onReceiveGroupsList(newMethod: (...args: any[]) => void): void {
+  onReceiveGroupsList(newMethod: (...args: unknown[]) => void): void {
     this.on("receiveGroupsList", newMethod);
   }
 
-  offReceiveGroupsList(method: (...args: any[]) => void): void {
+  offReceiveGroupsList(method: (...args: unknown[]) => void): void {
     this.off("receiveGroupsList", method);
   }
 
-  onJoinedNotification(newMethod: (...args: any[]) => void): void {
+  onJoinedNotification(newMethod: (...args: unknown[]) => void): void {
     this.on("joinedNotification", newMethod);
   }
 
-  offJoinedNotification(method: (...args: any[]) => void): void {
+  offJoinedNotification(method: (...args: unknown[]) => void): void {
     this.off("joinedNotification", method);
   }
 
-  onLeftNotification(newMethod: (...args: any[]) => void): void {
+  onLeftNotification(newMethod: (...args: unknown[]) => void): void {
     this.on("leftNotification", newMethod);
   }
 
-  offLeftNotification(method: (...args: any[]) => void): void {
+  offLeftNotification(method: (...args: unknown[]) => void): void {
     this.off("leftNotification", method);
   }
 }
