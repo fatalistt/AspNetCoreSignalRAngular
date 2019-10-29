@@ -9,6 +9,7 @@ import { ChatHubService } from '../chat-hub.service';
 })
 export class ChatComponent implements OnInit, OnDestroy {
   @ViewChild('chat', { static: false }) private main: ElementRef<HTMLElement>;
+  @ViewChild('message', { static: false }) private message: ElementRef<HTMLInputElement>;
   text: string;
   groups: string[] = [];
   readonly messages: Message[] = [];
@@ -46,6 +47,11 @@ export class ChatComponent implements OnInit, OnDestroy {
   send(): void {
     if (this.currentGroup === undefined) throw new Error("Not in a group");
     this.chatHub.sendMessage(this.currentGroup, this.username, this.text).then(() => this.text = null);
+  }
+
+  sendIfEnter(event: KeyboardEvent): void {
+    if (event.key === "Enter")
+      this.send();
   }
 
   joinGroup(e: Event, group: string): void {

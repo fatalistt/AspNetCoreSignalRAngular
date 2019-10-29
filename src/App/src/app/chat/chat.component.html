@@ -19,7 +19,7 @@
 </main>
 <div class="field has-addons">
 	<div class="control is-expanded">
-		<input class="input is-small" id="message" type="text" [(ngModel)]="text" placeholder="Message" />
+		<input #message class="input is-small" id="message" type="text" [(ngModel)]="text" placeholder="Message" (keypress)="sendIfEnter($event)" autocomplete="off" />
 	</div>
 	<div class="control">
 		<button class="button is-small is-info" (click)="send()">Send</button>
