@@ -1,38 +1,52 @@
 version: "3.4"
 services:
-  nginx-proxy:
-    image: "fatalist/nginx-proxy:alpine"
+  reverse-proxy:
+    image: traefik
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /certs:/etc/nginx/certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/traefik/acme
+    command:
+      --providers.docker=true
+      --providers.docker.exposedbydefault=false
+      --entrypoints.http.address=:80
+      --entrypoints.https.address=:443
+      --certificatesResolvers.root.acme.httpChallenge=true
+      --certificatesResolvers.root.acme.httpChallenge.entryPoint=http
+      --certificatesresolvers.root.acme.email=d.tarasov@fatalist.tech
+
   chat:
     build:
       context: ./src/Chat
       target: release
     image: docker.io/fatalist/fatalist.tech-chat:alpine
-    depends_on:
-      - nginx-proxy
     environment:
-      ASPNETCORE_URLS: https://+;http://+
+      ASPNETCORE_URLS: http://+
       ASPNETCORE_ENVIRONMENT: Release
-      ASPNETCORE_HTTPS_PORT: 443
-      ASPNETCORE_Kestrel__Certificates__Default__Password: fatalist
-      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/default.pfx
       ASPNETCORE_BEHIND_HTTPS_PROXY: "true"
-      VIRTUAL_PATH: /chat
-      TYPE: api
-    volumes:
-      - /certs:/https/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.chat-stripprefix.stripprefix.prefixes=/api/chat"
+      - "traefik.http.routers.chat.rule=(Host(`fatalist.tech`) || Host(`www.fatalist.tech`)) && PathPrefix(`/api/chat`)"
+      - "traefik.http.routers.chat.entrypoints=https"
+      - "traefik.http.routers.chat.middlewares=chat-stripprefix,ssl"
+      - "traefik.http.routers.chat.tls.certresolver=root"
+
   app:
     build:
       context: ./src/App
       target: release
     image: docker.io/fatalist/fatalist.tech-app:alpine
-    depends_on:
-      - nginx-proxy
-    environment:
-      VIRTUAL_PATH: /
-      TYPE: app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.ssl.headers.framedeny=true"
+      - "traefik.http.middlewares.ssl.headers.sslredirect=true"
+      - "traefik.http.routers.app.rule=Host(`fatalist.tech`) && PathPrefix(`/`)"
+      - "traefik.http.routers.app.entrypoints=https"
+      - "traefik.http.routers.app.tls.certresolver=root"
+      - "traefik.http.routers.app.middlewares=ssl"
+      - "traefik.http.routers.app-http.rule=Host(`fatalist.tech`) && PathPrefix(`/`)"
+      - "traefik.http.routers.app-http.entrypoints=http"
+      - "traefik.http.routers.app-http.middlewares=ssl"
