@@ -17,16 +17,21 @@ namespace fatalisttechs.Chat
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            bool isBehindHttpsProxy;
+            {
+                var var = Environment.GetEnvironmentVariable("ASPNETCORE_BEHIND_HTTPS_PROXY");
+                isBehindHttpsProxy = var != null && var.ToLowerInvariant() != "false";
+            }
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else if (Environment.GetEnvironmentVariable("ASPNETCORE_BEHIND_HTTPS_PROXY") is null)
+            else if (!isBehindHttpsProxy)
             {
                 app.UseHsts();
             }
 
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_BEHIND_HTTPS_PROXY") is null)
+            if (!isBehindHttpsProxy)
                 app.UseHttpsRedirection();
 
             app.UseRouting();
