@@ -17,4 +17,5 @@ FROM nginx:alpine as release
 EXPOSE 80
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/dist /usr/share/nginx/html
+COPY robots.txt /usr/share/nginx/html/
 CMD nginx -g "daemon off;"
