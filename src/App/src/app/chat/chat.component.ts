@@ -39,7 +39,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   send(): void {
-    if (this.text.trim() == "") {
+    if (this.text == null || this.text.trim() == "") {
       this.text = null;
       return;
     }
