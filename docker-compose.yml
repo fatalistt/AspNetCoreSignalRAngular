@@ -28,10 +28,12 @@ services:
       ASPNETCORE_BEHIND_HTTPS_PROXY: "true"
     labels:
       - "traefik.enable=true"
+      - "traefik.http.middlewares.chat-ssl.headers.framedeny=true"
+      - "traefik.http.middlewares.chat-ssl.headers.sslredirect=true"
       - "traefik.http.middlewares.chat-stripprefix.stripprefix.prefixes=/api/chat"
       - "traefik.http.routers.chat.rule=(Host(`fatalist.tech`) || Host(`www.fatalist.tech`)) && PathPrefix(`/api/chat`)"
       - "traefik.http.routers.chat.entrypoints=https"
-      - "traefik.http.routers.chat.middlewares=chat-stripprefix,ssl"
+      - "traefik.http.routers.chat.middlewares=chat-stripprefix,chat-ssl"
       - "traefik.http.routers.chat.tls.certresolver=root"
 
   app:
@@ -41,12 +43,12 @@ services:
     image: docker.io/fatalist/fatalist.tech-app:alpine
     labels:
       - "traefik.enable=true"
-      - "traefik.http.middlewares.ssl.headers.framedeny=true"
-      - "traefik.http.middlewares.ssl.headers.sslredirect=true"
+      - "traefik.http.middlewares.app-ssl.headers.framedeny=true"
+      - "traefik.http.middlewares.app-ssl.headers.sslredirect=true"
       - "traefik.http.routers.app.rule=Host(`fatalist.tech`) && PathPrefix(`/`)"
       - "traefik.http.routers.app.entrypoints=https"
       - "traefik.http.routers.app.tls.certresolver=root"
-      - "traefik.http.routers.app.middlewares=ssl"
+      - "traefik.http.routers.app.middlewares=app-ssl"
       - "traefik.http.routers.app-http.rule=Host(`fatalist.tech`) && PathPrefix(`/`)"
       - "traefik.http.routers.app-http.entrypoints=http"
-      - "traefik.http.routers.app-http.middlewares=ssl"
+      - "traefik.http.routers.app-http.middlewares=app-ssl"
