@@ -16,6 +16,7 @@ services:
       --certificatesResolvers.root.acme.httpChallenge=true
       --certificatesResolvers.root.acme.httpChallenge.entryPoint=http
       --certificatesresolvers.root.acme.email=d.tarasov@fatalist.tech
+      --certificatesresolvers.root.acme.storage=/etc/traefik/acme/acme.json
 
   chat:
     build:
