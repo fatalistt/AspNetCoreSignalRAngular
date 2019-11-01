@@ -18,7 +18,7 @@ export class ChatHubService {
     this.startPromise = this.connection.start().catch(err => console.warn(err));
     this.startPromise.then(() => this.getGroupsList());
     this.onJoinedNotification((group: string) => this.currentGroup = group);
-    this.onReceiveGroupsList((groups:string[]) => this.groupsSubject.next(groups));
+    this.onReceiveGroupsList((groups: string[]) => this.groupsSubject.next(groups));
   }
 
   private on(methodName: string, newMethod: (...args: unknown[]) => void): void {
