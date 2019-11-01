@@ -1,12 +1,12 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
+  selector: 'xcraft-root',
   template: `
-    <app-nav></app-nav>
+    <xcraft-nav></xcraft-nav>
     <router-outlet></router-outlet>
   `,
-  styleUrls: ["./app.component.scss"],
+  styleUrls: ['./xcraft.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom
 })
-export class AppComponent { }
+export class XcraftComponent { }

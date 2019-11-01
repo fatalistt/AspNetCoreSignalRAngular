@@ -6,7 +6,9 @@ import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: 'chat', component: ChatComponent },
-  { path: '', component: HomeComponent }
+  { path: 'xcraft', loadChildren: () => import('../xcraft/xcraft.module').then(m => m.XcraftModule) },
+  { path: '', component: HomeComponent },
+  { path: '**', component: HomeComponent } //switch to not found page
 ];
 
 @NgModule({
