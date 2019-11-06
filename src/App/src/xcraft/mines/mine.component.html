@@ -1,0 +1,21 @@
+<ng-container [formGroup]="mineControl">
+    <td>{{ mineControl.get("mine").value.name }}</td>
+    <td class="control">
+        <input class="input" formControlName="level" type="number" min=0 />
+    </td>
+    <td class="control">
+        <input class="input" formControlName="cost" readonly tabindex=-1 />
+    </td>
+    <td class="control">
+        <input class="input" formControlName="income" readonly tabindex=-1 />
+    </td>
+    <td class="control">
+        <input class="input" formControlName="upgradeCost" readonly tabindex=-1 />
+    </td>
+    <td class="control">
+        <input class="input" formControlName="upgradeIncome" readonly tabindex=-1 />
+    </td>
+    <td class="control">
+        <input class="input" formControlName="payback" readonly tabindex=-1 />
+    </td>
+</ng-container>

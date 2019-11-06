@@ -1,0 +1,50 @@
+<main [formGroup]="form">
+    <section>
+        <div class="field">
+            <label class="label">Planet diameter</label>
+            <div class="control">
+                <input class="input" formControlName="diameter" type="number" min=1 />
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Maximum planet temperature</label>
+            <div class="control">
+                <input class="input" formControlName="maximumTemperature" type="number" />
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Planet type</label>
+            <div class="control">
+                <div class="select">
+                    <select class="input" formControlName="type">
+                        <option value="Gas">Газовая</option>
+                        <option value="Water">Влажная</option>
+                        <option value="Sand">Сухая</option>
+                        <option value="Jungle">Джунгли</option>
+                        <option value="Ice">Ледяная</option>
+                        <option value="Dry">Жаркая</option>
+                        <option value="Normal">Обычная</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="table-container">
+        <table class="table is-striped">
+            <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Уровень</th>
+                    <th>Стоимость, унирес</th>
+                    <th>Текущий доход, унирес/час</th>
+                    <th>Доп. стоимость, унирес</th>
+                    <th>Доп. доход, унирес/час</th>
+                    <th>Окупаемость, дней</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr xcraft-mine *ngFor="let mine of mines.controls" [mine]="mine" [form]="form"></tr>
+            </tbody>
+        </table>
+    </section>
+</main>
